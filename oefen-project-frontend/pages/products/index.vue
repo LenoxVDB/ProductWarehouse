@@ -3,7 +3,7 @@
     <table>
       <thead class="w-40">
       <th class="border border-slate-300">name</th>
-      <th class="border border-slate-300">price</th>
+      <th class="border border-slate-300 p-2">price per item</th>
       <th class="border border-slate-300">stock</th>
       <th class="border border-slate-300">Description</th>
       <th class="border border-slate-300">Delete</th>
@@ -76,4 +76,3 @@ export default {
   }
 }
 </script>
-
