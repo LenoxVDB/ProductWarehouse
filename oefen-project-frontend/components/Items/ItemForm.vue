@@ -30,20 +30,6 @@
     </div>
     <div class="md:flex md:items-center mb-6">
       <div class="md:w-1/3">
-        <label class="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4" for="stock">
-          Stock
-        </label>
-      </div>
-      <div class="md:w-2/3">
-        <input
-            id="stock"
-            v-model="item.stock"
-            class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
-            placeholder="Amount" type="number">
-      </div>
-    </div>
-    <div class="md:flex md:items-center mb-6">
-      <div class="md:w-1/3">
         <label class="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4" for="Description">
           Description
         </label>
@@ -67,7 +53,7 @@
         <button
             class="inline-flex items-center mt-2 ms-4 mb-2 px-4 py-2 text-xs font-semibold tracking-widest text-white uppercase transition duration-150 ease-in-out bg-gray-800 border border-transparent rounded-md hover:bg-gray-700 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:ring ring-gray-300 disabled:opacity-25"
             type="button">
-          <nuxt-link to="../products">
+          <nuxt-link to="/products">
             Return
           </nuxt-link>
         </button>

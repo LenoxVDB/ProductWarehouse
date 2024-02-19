@@ -28,10 +28,6 @@ class BaseProductRequest extends FormRequest
                 'string',
                 'max:255',
             ],
-            'stock' => [
-                'required',
-                'integer',
-            ],
         ];
     }
 }

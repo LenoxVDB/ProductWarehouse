@@ -6,20 +6,18 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
-class Product extends Model
+class Warehouse extends Model
 {
     use HasFactory;
 
     /** @inheritdoc */
     protected $fillable = [
         'name',
-        'price',
-        'summary',
     ];
 
-    public function warehouses(): BelongsToMany
+    public function products(): BelongsToMany
     {
-        return $this->belongsToMany(Warehouse::class)
+        return $this->belongsToMany(Product::class)
             ->using(ProductWarehouse::class)
             ->withTimestamps()
             ->withPivot(ProductWarehouse::$pivotColumns)
