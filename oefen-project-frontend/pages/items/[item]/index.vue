@@ -18,12 +18,10 @@ export default {
   },
   methods: {
     save(data) {
-      console.log('(Update) Item: ', data)
       axios.put(`http://localhost:8000/api/products/${this.id}`, data)
           .then(res => {
             console.log(res.data)
           })
-
     }
   }
 }

@@ -22,21 +22,21 @@ class WarehouseController extends Controller
         return response()
             ->json($warehouse);
     }
-
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreWarehouseRequest $request)
+    public function store(StoreWarehouseRequest $request): JsonResponse
     {
-        //
+        $warehouse = Warehouse::create($request->validated());
+        return response()->json($warehouse);
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Warehouse $warehouse)
+    public function show(Warehouse $warehouse): JsonResponse
     {
-        //
+        return response()->json($warehouse->load('products'));
     }
 
     /**

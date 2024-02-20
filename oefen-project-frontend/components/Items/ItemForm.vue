@@ -87,23 +87,9 @@ export default {
     this.getItemInformation()
   },
   methods: {
-    getItemInformation() {
-      if (!this.id) {
-        return
-      }
-      axios.get(`http://localhost:8000/api/products/${this.id}`)
-          .then(res => res.data)
-          .then(item => {
-            this.item = item
-            if (item) {
-              console.log(item)
-            } else {
-              console.log("Item not found please try again")
-            }
-          })
-    },
     save() {
       this.$emit('save', this.item);
+      console.log(this.item)
     },
   }
 }
