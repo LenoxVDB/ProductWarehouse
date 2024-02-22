@@ -2,56 +2,57 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\WarehouseResource;
 use App\Models\Warehouse;
 use App\Http\Requests\StoreWarehouseRequest;
 use App\Http\Requests\UpdateWarehouseRequest;
+use GuzzleHttp\Psr7\Request;
+use http\Env\Response;
 use Illuminate\Http\JsonResponse;
 
 class WarehouseController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index():JsonResponse
     {
-        $warehouse = Warehouse::with([
+        $warehouses = Warehouse::with([
             'products',
         ])
             ->get();
 
-        return response()
-            ->json($warehouse);
+        return WarehouseResource::collection($warehouses)
+            ->response();
     }
-    /**
-     * Store a newly created resource in storage.
-     */
+
     public function store(StoreWarehouseRequest $request): JsonResponse
     {
         $warehouse = Warehouse::create($request->validated());
-        return response()->json($warehouse);
+
+        return (new WarehouseResource($warehouse))
+            ->response();
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(Warehouse $warehouse): JsonResponse
     {
-        return response()->json($warehouse->load('products'));
+        $warehouse->load([
+            'products',
+        ]);
+
+        return (new WarehouseResource($warehouse))
+            ->response();
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(UpdateWarehouseRequest $request, Warehouse $warehouse)
     {
-        //
+        $warehouse->update($request->validated());
+
+        return (new WarehouseResource($warehouse))
+            ->response();
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Warehouse $warehouse)
+    public function destroy(Warehouse $warehouse): JsonResponse
     {
-        //
+        $warehouse->delete();
+
+        return response()->json();
     }
 }

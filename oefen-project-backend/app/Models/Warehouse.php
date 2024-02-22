@@ -9,7 +9,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 class Warehouse extends Model
 {
     use HasFactory;
-
     /** @inheritdoc */
     protected $fillable = [
         'name',
@@ -19,8 +18,8 @@ class Warehouse extends Model
     {
         return $this->belongsToMany(Product::class)
             ->using(ProductWarehouse::class)
-            ->withTimestamps()
             ->withPivot(ProductWarehouse::$pivotColumns)
+            ->withTimestamps()
             ->as(ProductWarehouse::$pivotName);
     }
 }

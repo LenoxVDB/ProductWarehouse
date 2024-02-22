@@ -15,7 +15,10 @@
             Stock in Warehouse
           </th>
           <th scope="col" class="px-6 py-3 text-center">
-            description
+            Description
+          </th>
+          <th>
+            Update
           </th>
         </tr>
         </thead>
@@ -34,12 +37,21 @@
           <td class="px-6 py-4 bg-gray-50 dark:bg-gray-800 text-center">
             {{ warehouse.summary }}
           </td>
+          <td>
+            <button @click="updateProduct(warehouse.product_warehouse)" class=" items-center ms-2 mt-2 mb-2 px-4 py-2 text-xs font-semibold tracking-widest text-white uppercase transition duration-150 ease-in-out bg-gray-800 border border-transparent rounded-md hover:bg-gray-700 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:ring ring-gray-300 disabled:opacity-25">
+              Update
+            </button>
+          </td>
         </tr>
         </tbody>
       </table>
     </div>
+    <NuxtLink to="/">
+      <button class=" inline-flex items-center ms-2 mt-2 mb-2 px-4 py-2 text-xs font-semibold tracking-widest text-white uppercase transition duration-150 ease-in-out bg-gray-800 border border-transparent rounded-md hover:bg-gray-700 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:ring ring-gray-300 disabled:opacity-25">
+        Return
+      </button>
+    </NuxtLink>
     <div class="">
-      <!-- create form when finished -->
     </div>
   </div>
 </template>
@@ -71,6 +83,7 @@ export default {
     getWarehouseProducts() {
       axios.get(`http://localhost:8000/api/warehouse/${this.id}`).then(res => {
         this.WarehouseItem = res.data.products;
+        console.log(res.data)
       })
     },
     async save(data) {
@@ -82,6 +95,9 @@ export default {
        stock: ${res.data.stock}
        Description: ${res.data.summary}`
       );
+    },
+    updateProduct(data) {
+      console.log(data)
     }
   }
 }

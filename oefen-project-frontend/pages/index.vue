@@ -10,7 +10,7 @@
         <tbody>
         <tr v-for="warehouse in warehouses" :key="warehouse.id">
           <td class="border border-slate-300 p-4 text-center">{{ warehouse.name }}</td>
-          <td class="border border-slate-300 p-4 text-center">{{ stockForWarehouse(warehouse) }}</td>
+          <td class="border border-slate-300 p-4 text-center">{{ stockForWarehouse(warehouse)}}</td>
           <td class="border border-slate-300 p-4">
             <button>
               <NuxtLink :to="`/warehouses/${warehouse.id}`">

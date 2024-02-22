@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class BaseWarehouseRequest extends FormRequest
+class ProductWarehousePivotRequest extends FormRequest
 {
     public function authorize(): bool
     {
@@ -14,11 +14,11 @@ class BaseWarehouseRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => [
+            'stock' => [
                 'required',
-                'string',
-                'max:255',
-            ]
+                'integer',
+                'min:1',
+            ],
         ];
     }
 }
