@@ -53,11 +53,12 @@ export default {
   },
   mounted() {
     this.getWarehouses();
+    console.log(this.warehouses)
   },
   methods: {
     getWarehouses() {
       axios.get('http://localhost:8000/api/warehouse').then(res => {
-        this.warehouses = res.data;
+        this.warehouses = res.data.data;
       })
     },
     stockForWarehouse(warehouse) {
