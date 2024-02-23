@@ -18,7 +18,9 @@
 
 <script>
 import axios from "axios";
-  export default {
+import {toast} from "vue3-toastify";
+import 'vue3-toastify/dist/index.css'
+export default {
     data() {
       return {
         item: {
@@ -28,12 +30,12 @@ import axios from "axios";
     },
     methods: {
       async createWarehouse() {
-        try {
           const res = await axios.post('http://localhost:8000/api/warehouse', this.item);
-          console.log(res.data);
-        } catch (error) {
-          console.error(error);
-        }
+
+          toast.success("Warehouse successfully added", {
+            transition: "side",
+            autoClose: 3000
+          })
       }
     }
   }

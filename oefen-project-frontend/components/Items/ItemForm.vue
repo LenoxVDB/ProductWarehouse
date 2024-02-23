@@ -62,10 +62,7 @@
   </form>
 </template>
 
-<script lang="ts">
-
-import axios from "axios";
-
+<script>
 export default {
   props: {
     id: {
@@ -84,7 +81,6 @@ export default {
     }
   },
   mounted() {
-    this.getItemInformation()
   },
   methods: {
     save() {

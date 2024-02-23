@@ -32,13 +32,14 @@
             €{{ warehouse.price }}
           </td>
           <td class="px-6 py-4 text-center">
-            {{ warehouse.product_warehouse.stock }}
+            {{ warehouse.productWarehouse.stock }}
           </td>
           <td class="px-6 py-4 bg-gray-50 dark:bg-gray-800 text-center">
             {{ warehouse.summary }}
           </td>
           <td>
-            <button @click="updateProduct(warehouse.product_warehouse)" class=" items-center ms-2 mt-2 mb-2 px-4 py-2 text-xs font-semibold tracking-widest text-white uppercase transition duration-150 ease-in-out bg-gray-800 border border-transparent rounded-md hover:bg-gray-700 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:ring ring-gray-300 disabled:opacity-25">
+            <button v-on:click="saveWarehouse(warehouse)"
+                    class=" items-center ms-2 mt-2 mb-2 px-4 py-2 text-xs font-semibold tracking-widest text-white uppercase transition duration-150 ease-in-out bg-gray-800 border border-transparent rounded-md hover:bg-gray-700 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:ring ring-gray-300 disabled:opacity-25">
               Update
             </button>
           </td>
@@ -47,22 +48,27 @@
       </table>
     </div>
     <NuxtLink to="/">
-      <button class=" inline-flex items-center ms-2 mt-2 mb-2 px-4 py-2 text-xs font-semibold tracking-widest text-white uppercase transition duration-150 ease-in-out bg-gray-800 border border-transparent rounded-md hover:bg-gray-700 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:ring ring-gray-300 disabled:opacity-25">
+      <button
+          class=" inline-flex items-center ms-2 mt-2 mb-2 px-4 py-2 text-xs font-semibold tracking-widest text-white uppercase transition duration-150 ease-in-out bg-gray-800 border border-transparent rounded-md hover:bg-gray-700 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:ring ring-gray-300 disabled:opacity-25">
         Return
       </button>
     </NuxtLink>
     <div class="">
+      <update-warehouse-information :item="warehouse" v-if="toggle"/>
     </div>
   </div>
 </template>
+
 
 <script>
 import axios from "axios";
 import Create from "~/pages/items/create.vue";
 import ItemForm from "~/components/Items/ItemForm.vue";
+import UpdateWarehouseInformation from "~/components/warehouses/updateWarehouseInformation.vue";
+import {toast} from "vue3-toastify";
 
 export default {
-  components: {ItemForm, Create},
+  components: {UpdateWarehouseInformation, ItemForm, Create},
   data() {
     return {
       WarehouseItem: [],
@@ -72,7 +78,9 @@ export default {
         price: '',
         stock: '',
         summary: ''
-      }
+      },
+      toggle: false,
+      warehouse: []
     }
   },
   mounted() {
@@ -82,22 +90,16 @@ export default {
   methods: {
     getWarehouseProducts() {
       axios.get(`http://localhost:8000/api/warehouse/${this.id}`).then(res => {
-        this.WarehouseItem = res.data.products;
-        console.log(res.data)
+        this.WarehouseItem = res.data.data.products;
       })
     },
     async save(data) {
       this.item = {...data}
       const res = await axios.post('http://localhost:8000/api/warehouse', this.item)
-      alert(`Product successfully added:
-       name: ${res.data.name}
-       price: ${res.data.price}
-       stock: ${res.data.stock}
-       Description: ${res.data.summary}`
-      );
     },
-    updateProduct(data) {
-      console.log(data)
+    saveWarehouse(data) {
+      this.toggle = !this.toggle
+      this.warehouse = data
     }
   }
 }

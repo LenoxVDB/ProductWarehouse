@@ -6,7 +6,7 @@
 
 import ItemForm from "~/components/Items/ItemForm.vue";
 import axios from "axios";
-
+import {toast} from "vue3-toastify";
 export default {
   components: {ItemForm},
   data() {
@@ -23,16 +23,12 @@ export default {
     async save(data) {
       this.item = {...data}
       const res = await axios.post('http://localhost:8000/api/products', this.item)
-      alert(`Product successfully added:
-       name: ${res.data.name}
-       price: ${res.data.price}
-       stock: ${res.data.stock}
-       Description: ${res.data.summary}`
-      );
-      navigateTo('/');
+      await navigateTo('/products');
+      toast.success("Product successfully added", {
+        transition: "side",
+        autoClose: 1500
+      })
     }
   }
 }
-
-
 </script>
