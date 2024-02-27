@@ -76,7 +76,6 @@ export default {
         name: '',
         price: '',
         summary: '',
-        stock: '',
       }
     }
   },

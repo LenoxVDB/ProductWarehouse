@@ -1,7 +1,7 @@
 <template>
   <div class="flex flex-col">
     <div class="max-h-[42.50rem] overflow-y-scroll">
-      <h2 class="font-bold mb-3 text-lg text-center">Products in this warehouse</h2>
+      <h2 class="font-bold mb-3 text-lg text-center border border-b-2">Products in this warehouse</h2>
       <table class="text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
         <thead class="text-xs text-gray-700 uppercase dark:text-gray-400">
         <tr>
@@ -17,8 +17,8 @@
           <th scope="col" class="px-6 py-3 text-center">
             Description
           </th>
-          <th>
-            Update
+          <th scope="col" class="px-6 py-3 text-center">
+            Update Stock
           </th>
         </tr>
         </thead>
@@ -40,7 +40,7 @@
           <td>
             <button v-on:click="saveWarehouse(warehouse)"
                     class=" items-center ms-2 mt-2 mb-2 px-4 py-2 text-xs font-semibold tracking-widest text-white uppercase transition duration-150 ease-in-out bg-gray-800 border border-transparent rounded-md hover:bg-gray-700 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:ring ring-gray-300 disabled:opacity-25">
-              Update
+              Update Stock
             </button>
           </td>
         </tr>
@@ -54,7 +54,7 @@
       </button>
     </NuxtLink>
     <div class="">
-      <update-warehouse-information :item="warehouse" v-if="toggle"/>
+      <update-warehouse-information :item="warehouse" v-if="toggle" @updated="handleUpdateStock"/>
     </div>
   </div>
 </template>
@@ -89,8 +89,8 @@ export default {
   },
   methods: {
     getWarehouseProducts() {
-      axios.get(`http://localhost:8000/api/warehouse/${this.id}`).then(res => {
-        this.WarehouseItem = res.data.data.products;
+      axios.get(`http://localhost:8000/api/warehouses/${this.id}/products`).then(res => {
+        this.WarehouseItem = res.data.data;
       })
     },
     async save(data) {
@@ -100,6 +100,19 @@ export default {
     saveWarehouse(data) {
       this.toggle = !this.toggle
       this.warehouse = data
+    },
+    handleUpdateStock(updateData) {
+      console.log('Update data: ', updateData)
+      const {id, stock} = updateData
+
+      this.WarehouseItem = this.WarehouseItem.map(warehouseItem => {
+        if ('productWarehouse' in warehouseItem && warehouseItem.productWarehouse.product_id === id) {
+          warehouseItem.productWarehouse.stock = stock
+        }
+        return warehouseItem;
+      })
+
+      this.toggle = false
     }
   }
 }

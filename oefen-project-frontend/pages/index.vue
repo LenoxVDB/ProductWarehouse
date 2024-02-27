@@ -63,7 +63,7 @@ export default {
   },
   methods: {
     getWarehouses() {
-      axios.get('http://localhost:8000/api/warehouse').then(res => {
+      axios.get('http://localhost:8000/api/warehouses').then(res => {
         this.warehouses = res.data.data;
       })
     },

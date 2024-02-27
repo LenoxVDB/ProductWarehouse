@@ -5,15 +5,16 @@
         <label class="block text-gray-700 text-sm font-bold mb-2" for="stock">
           Stock
         </label>
-        <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+        <input
+            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             id="stock" type="number" min="1" v-model="updateData.stock" placeholder="Stock" required>
       </div>
       <div class="flex items-center justify-between">
-        <button v-on:click="updateProduct()"
-                class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-                type="button">
-          Update
-        </button>
+          <button v-on:click="updateProduct()"
+                  class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                  type="button">
+            Update
+          </button>
       </div>
     </form>
   </div>
@@ -38,13 +39,15 @@ export default {
       try {
         this.toggle = !this.toggle
         const res = await axios.put(`http://localhost:8000/api/products/${this.item.productWarehouse.product_id}/warehouses/${this.item.productWarehouse.warehouse_id}`, this.updateData)
-        toast.success("Warehouse successfully updated", {
+        toast.success("Stock successfully updated", {
           transition: "side",
-          autoClose: 3000
+          autoClose: 2000
         })
-        setTimeout(() => {
-          location.reload();
-        }, 3500)
+
+        this.$emit('updated', {
+          id: this.item.id,
+          stock: this.updateData.stock
+        })
       } catch (error) {
         toast.error("Oops something went wrong!", {
           transition: "side"

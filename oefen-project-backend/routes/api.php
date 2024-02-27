@@ -3,6 +3,7 @@
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProductWarehouseController;
 use App\Http\Controllers\WarehouseController;
+use App\Http\Controllers\WarehouseProductController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -43,5 +44,18 @@ Route::prefix('products')
                     });
             });
     });
+Route::prefix('warehouses')
+    ->name('warehouses.')
+    ->group(function() {
+        Route::prefix('{warehouse}')
+            ->group(function(){
+                Route::prefix('products')
+                    ->name('products.')
+                    ->group(function() {
+                        Route::get('/', [WarehouseProductController::class, 'index'])
+                            ->name('index');
+                    });
+            });
+    });
 Route::apiResource('products', ProductController::class);
-Route::apiResource('warehouse',WarehouseController::class);
+Route::apiResource('warehouses',WarehouseController::class);
