@@ -17,7 +17,7 @@
           <td class="text-center border border-slate-300">{{ product.price }}</td>
           <td class="text-center bg-gray-200 border border-slate-300">{{ product.summary }}</td>
           <td class="flex justify-center items-center mt-5">
-            <button @click="addToWarehouse(product.id, product.warehouses[0].productWarehouse.stock)">
+            <button @click="addToWarehouse(product.id, product.warehouses)">
               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                    stroke="currentColor" class="w-6 h-6">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15"/>
@@ -34,8 +34,6 @@
 <script>
 import axios from "axios";
 import {toast} from "vue3-toastify";
-
-
 export default {
   props: {
     warehouseId: {
@@ -67,6 +65,7 @@ export default {
       axios.post(`http://localhost:8000/api/products/${productId}/warehouses/${this.warehouseId}`, {"stock": product}).then(res => {
         console.log(res);
       })
+      console.log(product)
       toast.success("Product successfully added")
     }
   }
