@@ -35,10 +35,8 @@
 import axios from "axios";
 import {toast} from "vue3-toastify";
 
-export default {
-  extends: {
 
-  },
+export default {
   props: {
     warehouseId: {
       type: Number
@@ -56,10 +54,10 @@ export default {
     getProducts() {
       axios.get(`http://localhost:8000/api/products`).then(res => {
         this.products = res.data.data.filter(product => {
-          if('warehouses' in product) {
-              return product.warehouses.every(warehouse => {
-                return warehouse.productWarehouse.warehouse_id !== this.warehouseId
-              })
+          if ('warehouses' in product) {
+            return product.warehouses.every(warehouse => {
+              return warehouse.productWarehouse.warehouse_id !== this.warehouseId
+            })
           }
           return true
         })
@@ -71,6 +69,6 @@ export default {
       })
       toast.success("Product successfully added")
     }
-  },
+  }
 }
 </script>

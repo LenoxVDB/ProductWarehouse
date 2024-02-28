@@ -66,7 +66,6 @@ import Create from "~/pages/items/create.vue";
 import ItemForm from "~/components/Items/ItemForm.vue";
 import UpdateWarehouseInformation from "~/components/warehouses/updateWarehouseInformation.vue";
 import {toast} from "vue3-toastify";
-
 export default {
   components: {UpdateWarehouseInformation, ItemForm, Create},
   data() {
