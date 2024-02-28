@@ -62,10 +62,7 @@
   </form>
 </template>
 
-<script lang="ts">
-
-import axios from "axios";
-
+<script>
 export default {
   props: {
     id: {
@@ -79,18 +76,16 @@ export default {
         name: '',
         price: '',
         summary: '',
-        stock: '',
       }
     }
   },
   mounted() {
-    this.getItemInformation()
   },
   methods: {
     save() {
       this.$emit('save', this.item);
       console.log(this.item)
-    },
+    }
   }
 }
 

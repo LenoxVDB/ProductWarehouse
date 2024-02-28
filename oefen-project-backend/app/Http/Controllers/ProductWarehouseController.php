@@ -31,7 +31,7 @@ class ProductWarehouseController extends Controller
             'products'
         ]);
 
-        return ProductResource::make($product)
+        return WarehouseResource::make($warehouse)
             ->response();
     }
 
@@ -42,11 +42,11 @@ class ProductWarehouseController extends Controller
                 $warehouse->getKey() => $request->validated()
             ]);
 
-        $product->load([
-            'warehouses'
+        $warehouse->load([
+            'products'
         ]);
 
-        return ProductResource::make($product)
+        return WarehouseResource::make($warehouse)
             ->response();
     }
 }

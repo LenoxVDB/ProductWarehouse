@@ -4,13 +4,13 @@
       <table>
         <thead class="w-40">
         <th scope="col" class="border border-slate-300">Name</th>
-        <th scope="col" class="border border-slate-300">Total Warehouse Stock</th>
+        <th scope="col" class="border border-slate-300">Total items in Warehouse Stock</th>
         <th scope="col" class="border border-slate-300">View</th>
         </thead>
         <tbody>
         <tr v-for="warehouse in warehouses" :key="warehouse.id">
           <td class="border border-slate-300 p-4 text-center">{{ warehouse.name }}</td>
-          <td class="border border-slate-300 p-4 text-center">{{ stockForWarehouse(warehouse)}}</td>
+          <td class="border border-slate-300 p-4 text-center">{{ stockForWarehouse(warehouse) }}</td>
           <td class="border border-slate-300 p-4">
             <button>
               <NuxtLink :to="`/warehouses/${warehouse.id}`">
@@ -32,6 +32,13 @@
       type="button" @click="toggleComponents">
     Toggle Create Warehouse
   </button>
+  <NuxtLink to="/products">
+  <button
+      class="inline-flex items-center ms-2 mt-2 mb-2 px-4 py-2 text-xs font-semibold tracking-widest text-white uppercase transition duration-150 ease-in-out bg-gray-800 border border-transparent rounded-md hover:bg-gray-700 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:ring ring-gray-300 disabled:opacity-25"
+      type="button" @click="toggleComponents">
+    View all products
+  </button>
+  </NuxtLink>
   <div class="">
     <CreateWarehouse v-if="toggle"/>
   </div>
@@ -53,22 +60,23 @@ export default {
   },
   mounted() {
     this.getWarehouses();
-    console.log(this.warehouses)
   },
   methods: {
     getWarehouses() {
-      axios.get('http://localhost:8000/api/warehouse').then(res => {
+      axios.get('http://localhost:8000/api/warehouses').then(res => {
         this.warehouses = res.data.data;
       })
     },
     stockForWarehouse(warehouse) {
       return warehouse.products.reduce((totalStock, product) => {
-        totalStock += product.product_warehouse.stock
+        totalStock += product.productWarehouse.stock
         return totalStock
       }, 0)
     },
     toggleComponents() {
       this.toggle = !this.toggle
+      console.log(this.warehouses)
+
     }
   }
 }
