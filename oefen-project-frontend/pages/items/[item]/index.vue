@@ -5,6 +5,7 @@
 <script>
 import ItemForm from "~/components/Items/ItemForm.vue";
 import axios from "axios";
+import {toast} from "vue3-toastify";
 
 export default {
   components: {ItemForm},
@@ -19,9 +20,6 @@ export default {
   methods: {
     save(data) {
       axios.put(`http://localhost:8000/api/products/${this.id}`, data)
-          .then(res => {
-            console.log(res.data.data)
-          })
     }
   }
 }

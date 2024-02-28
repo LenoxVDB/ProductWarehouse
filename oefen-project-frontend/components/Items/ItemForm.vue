@@ -85,7 +85,7 @@ export default {
     save() {
       this.$emit('save', this.item);
       console.log(this.item)
-    },
+    }
   }
 }
 

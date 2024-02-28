@@ -16,14 +16,13 @@
           <td class="text-center bg-gray-200 border border-slate-300">{{ product.name }}</td>
           <td class="text-center border border-slate-300">{{ product.price }}</td>
           <td class="text-center bg-gray-200 border border-slate-300">{{ product.summary }}</td>
-          <td class="flex justify-center items-center mt-2">
+          <td class="flex justify-center items-center mt-5">
             <button @click="addToWarehouse(product.id, product.warehouses[0].productWarehouse.stock)">
               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                    stroke="currentColor" class="w-6 h-6">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15"/>
               </svg>
             </button>
-
           </td>
         </tr>
         </tbody>
@@ -34,8 +33,12 @@
 
 <script>
 import axios from "axios";
+import {toast} from "vue3-toastify";
 
 export default {
+  extends: {
+
+  },
   props: {
     warehouseId: {
       type: Number
@@ -58,16 +61,15 @@ export default {
                 return warehouse.productWarehouse.warehouse_id !== this.warehouseId
               })
           }
-
           return true
         })
       });
     },
     addToWarehouse(productId, product) {
-      console.log(product)
-
-      axios.post(`http://localhost:8000/api/warehouses/${this.warehouseId}/products/${productId}`, product)
-      // console.log(`dit is product id: ${productId} en dit is het warehuis: ${this.warehouseId}`)
+      axios.post(`http://localhost:8000/api/products/${productId}/warehouses/${this.warehouseId}`, {"stock": product}).then(res => {
+        console.log(res);
+      })
+      toast.success("Product successfully added")
     }
   },
 }

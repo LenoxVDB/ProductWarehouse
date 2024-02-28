@@ -102,16 +102,13 @@ export default {
       this.warehouse = data
     },
     handleUpdateStock(updateData) {
-      console.log('Update data: ', updateData)
       const {id, stock} = updateData
-
       this.WarehouseItem = this.WarehouseItem.map(warehouseItem => {
         if ('productWarehouse' in warehouseItem && warehouseItem.productWarehouse.product_id === id) {
           warehouseItem.productWarehouse.stock = stock
         }
         return warehouseItem;
       })
-
       this.toggle = false
     }
   }
