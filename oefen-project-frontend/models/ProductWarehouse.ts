@@ -23,5 +23,9 @@ export default class ProductWarehouse extends BasePivot {
         }
     }
 
-    declare name: string
+    declare product_id: number
+    declare product: Product
+    declare warehouse_id: number
+    declare warehouse: Warehouse
+    declare stock: number
 }

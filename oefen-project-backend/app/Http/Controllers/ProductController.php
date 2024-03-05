@@ -17,8 +17,6 @@ class ProductController extends Controller
         ])
             ->get();
 
-//        dd($products->toArray());
-
         // TODO: in frontend, make sure data is fetched in another .data subset
 
         return ProductResource::collection($products)

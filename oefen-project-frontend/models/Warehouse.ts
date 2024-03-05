@@ -13,4 +13,6 @@ export default class Warehouse extends BaseModel {
     }
 
     declare name: string
+    declare products: Product[] | undefined
+    declare pivot: ProductWarehouse  | undefined
 }

@@ -35,7 +35,7 @@
   <NuxtLink to="/products">
   <button
       class="inline-flex items-center ms-2 mt-2 mb-2 px-4 py-2 text-xs font-semibold tracking-widest text-white uppercase transition duration-150 ease-in-out bg-gray-800 border border-transparent rounded-md hover:bg-gray-700 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:ring ring-gray-300 disabled:opacity-25"
-      type="button" @click="toggleComponents">
+      type="button">
     View all products
   </button>
   </NuxtLink>
@@ -46,10 +46,9 @@
 
 </template>
 
-<script>
+<script lang="ts">
 import axios from "axios";
 import CreateWarehouse from "~/components/warehouses/CreateWarehouse.vue";
-
 export default {
   components: {CreateWarehouse},
   data() {
@@ -69,16 +68,14 @@ export default {
     },
     stockForWarehouse(warehouse) {
       return warehouse.products.reduce((totalStock, product) => {
-        totalStock += product.productWarehouse.stock
+        totalStock += product.pivot.stock
         return totalStock
       }, 0)
     },
     toggleComponents() {
       this.toggle = !this.toggle
-      console.log(this.warehouses)
-
     }
-  }
+  },
 }
 
 </script>
