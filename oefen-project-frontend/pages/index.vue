@@ -66,14 +66,14 @@ export default {
         this.warehouses = res.data.data;
       })
     },
-    stockForWarehouse(warehouse) {
+    stockForWarehouse(warehouse: object): string {
       return warehouse.products.reduce((totalStock, product) => {
         totalStock += product.pivot.stock
         return totalStock
       }, 0)
     },
-    toggleComponents() {
-      this.toggle = !this.toggle
+    toggleComponents(): void {
+      this.toggle = !this.toggle;
     }
   },
 }

@@ -12,7 +12,7 @@
         </tr>
         </thead>
         <tbody>
-        <tr v-for="product in products">
+        <tr v-for="product in unassignedProducts">
           <td class="text-center bg-gray-200 border border-slate-300">{{ product.name }}</td>
           <td class="text-center border border-slate-300">{{ product.price }}</td>
           <td class="text-center bg-gray-200 border border-slate-300">{{ product.summary }}</td>
@@ -31,9 +31,15 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import axios from "axios";
 import {toast} from "vue3-toastify";
+import type {Repository} from "pinia-orm";
+import Product from "~/models/Product.js";
+import {useRepo} from "pinia-orm";
+import Warehouse from "~/models/Warehouse.js";
+import type {Query} from "pinia-orm";
+import ProductWarehouse from "~/models/ProductWarehouse";
 export default {
   props: {
     warehouseId: {
@@ -42,7 +48,7 @@ export default {
   },
   data() {
     return {
-      products: []
+      unassignedProducts: []
     }
   },
   mounted() {
@@ -51,10 +57,10 @@ export default {
   methods: {
     getProducts() {
       axios.get(`http://localhost:8000/api/products`).then(res => {
-        this.products = res.data.data.filter(product => {
+        this.unassignedProducts = res.data.data.filter(product => {
           if ('warehouses' in product) {
             return product.warehouses.every(warehouse => {
-              return warehouse.productWarehouse.warehouse_id !== this.warehouseId
+              return warehouse.pivot.warehouse_id !== this.warehouseId
             })
           }
           return true
@@ -68,6 +74,24 @@ export default {
       console.log(product)
       toast.success("Product successfully added")
     }
+  },
+  computed: {
+    productRepo(): Repository<Product> {
+      return useRepo(Product)
+    },
+    warehouseRepo(): Repository<Warehouse> {
+      return useRepo(Warehouse)
+    },
+    products(): Product[] {
+      return this.productRepo.query()
+          .whereHas('warehouses', (query: Query<Warehouse>) => {
+            query.whereId(this.warehouseId)
+          })
+          .with('warehouses', (query: Query<Warehouse>) => {
+            query.whereId(this.warehouseId)
+          })
+          .get();
+    },
   }
 }
 </script>

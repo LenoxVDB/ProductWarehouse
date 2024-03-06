@@ -24,8 +24,8 @@ export default class ProductWarehouse extends BasePivot {
     }
 
     declare product_id: number
-    declare product: Product
+    declare product: Product | undefined
     declare warehouse_id: number
-    declare warehouse: Warehouse
+    declare warehouse: Warehouse | undefined
     declare stock: number
 }

@@ -7,27 +7,29 @@
 
 </template>
 
-<script>
+<script lang="ts">
 import {useRepo} from "pinia-orm";
 import Product from "~/models/Product";
 import axios from "axios";
 import Warehouse from "~/models/Warehouse";
+import type {Repository} from "pinia-orm";
+
 export default {
   methods: {
-    getData() {
-      axios.get(`http://127.0.0.1:8000/api/warehouses/3`).then(res => {
+    async getData() {
+      await axios.get(`http://127.0.0.1:8000/api/warehouses/3`).then(res => {
         this.warehouseRepo.save(res.data.data)
       })
     }
   },
   computed: {
-    productRepo() {
+    productRepo(): Repository<Product> {
       return useRepo(Product)
     },
-    warehouseRepo() {
+    warehouseRepo(): Repository<Warehouse> {
       return useRepo(Warehouse)
     },
-    products() {
+    products(): Product[] {
       return this.productRepo.query().with('warehouses')
           .get();
     },

@@ -38,7 +38,7 @@
             {{ product.summary }}
           </td>
           <td>
-            <button v-on:click="saveWarehouse(product)"
+            <button v-on:click="openEditStockForm(product)"
                     class=" items-center ms-2 mt-2 mb-2 px-4 py-2 text-xs font-semibold tracking-widest text-white uppercase transition duration-150 ease-in-out bg-gray-800 border border-transparent rounded-md hover:bg-gray-700 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:ring ring-gray-300 disabled:opacity-25">
               Update Stock
             </button>
@@ -76,7 +76,6 @@ export default {
   components: {UpdateWarehouseInformation, ItemForm, Create},
   data() {
     return {
-      WarehouseItem: [] as any[],
       id: null as number | null,
       toggle: false,
       product: {} as Product
@@ -94,7 +93,7 @@ export default {
         this.warehouseRepo.save(res.data.data)
       })
     },
-    saveWarehouse(product: Product): void {
+    openEditStockForm(product: Product): void {
       this.toggle = !this.toggle
       this.product = product
       console.log(product);
