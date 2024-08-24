@@ -19,7 +19,6 @@ class Warehouse extends Model
         return $this->belongsToMany(Product::class)
             ->using(ProductWarehouse::class)
             ->withPivot(ProductWarehouse::$pivotColumns)
-            ->withTimestamps()
-            ->as(ProductWarehouse::$pivotName);
+            ->withTimestamps();
     }
 }

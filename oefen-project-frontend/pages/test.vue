@@ -1,54 +1,36 @@
 <template>
   <div>
-    <pre>{{ products}}</pre>
-    <pre>{{ products}}</pre>
-    <pre>{{ products}}</pre>
-    <pre>{{ products}}</pre>
-    <pre>{{ products}}</pre>
-    <pre>{{ products}}</pre>
+    <pre>{{ products }}</pre>
+    <button @click="getData()">klik op mij</button>
   </div>
 
 
 </template>
 
 <script lang="ts">
-import axios from "axios";
-import CreateWarehouse from "~/components/warehouses/CreateWarehouse.vue";
 import {useRepo} from "pinia-orm";
 import Product from "~/models/Product";
+import axios from "axios";
+import Warehouse from "~/models/Warehouse";
+import type {Repository} from "pinia-orm";
 
 export default {
-  mounted() {
-    this.productRepo.save({
-      id: 1,
-      name: 'test',
-      price: 10,
-      summary: 'ik ben een test na aanpassing',
-      created_at: '',
-      updated_at: '',
-      warehouses: [
-        {
-          id: 1,
-          name: 'Rickert',
-          created_at: '',
-          updated_at: '',
-          pivot: {
-            product_id: 1,
-            warehouse_id: 1,
-            stock: 5,
-            created_at: '',
-            updated_at: '',
-          }
-        }
-      ]
-    })
+  methods: {
+    async getData() {
+      await axios.get(`http://127.0.0.1:8000/api/warehouses/3`).then(res => {
+        this.warehouseRepo.save(res.data.data)
+      })
+    }
   },
   computed: {
-    productRepo() {
+    productRepo(): Repository<Product> {
       return useRepo(Product)
     },
-    products() {
-      return this.productRepo.query()
+    warehouseRepo(): Repository<Warehouse> {
+      return useRepo(Warehouse)
+    },
+    products(): Product[] {
+      return this.productRepo.query().with('warehouses')
           .get();
     },
   }

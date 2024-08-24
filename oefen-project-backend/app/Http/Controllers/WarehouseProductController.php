@@ -7,6 +7,7 @@ use App\Http\Resources\ProductResource;
 use App\Http\Resources\WarehouseResource;
 use App\Models\Product;
 use App\Models\Warehouse;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\JsonResponse;
 
 class WarehouseProductController extends Controller
@@ -14,6 +15,9 @@ class WarehouseProductController extends Controller
     public function index(Warehouse $warehouse): JsonResponse
     {
         $products = $warehouse->products()
+            ->with([
+                'warehouses',
+            ])
             ->get();
 
         return ProductResource::collection($products)

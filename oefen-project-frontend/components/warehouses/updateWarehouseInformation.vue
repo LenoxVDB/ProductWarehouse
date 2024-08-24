@@ -22,8 +22,8 @@
 <script>
 import axios from "axios";
 import {toast} from "vue3-toastify";
-export default {
 
+export default {
   data() {
     return {
       updateData: {
@@ -32,20 +32,21 @@ export default {
     }
   },
   props: {
-    item: {}
+    productId: Number,
+    warehouseId: Number,
   },
   methods: {
     async updateProduct() {
       try {
         this.toggle = !this.toggle
-        const res = await axios.put(`http://localhost:8000/api/products/${this.item.productWarehouse.product_id}/warehouses/${this.item.productWarehouse.warehouse_id}`, this.updateData)
+        const res = await axios.put(`http://localhost:8000/api/products/${this.productId}/warehouses/${this.warehouseId}`, this.updateData)
         toast.success("Stock successfully updated", {
           transition: "side",
           autoClose: 2000
         })
-
         this.$emit('updated', {
-          id: this.item.id,
+          productId: this.productId,
+          warehouseId: this.warehouseId,
           stock: this.updateData.stock
         })
       } catch (error) {
